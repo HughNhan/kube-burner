@@ -1,0 +1,25 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: {{.JobName}}-{{.Iteration}}
+  labels:
+    name: {{.JobName}}
+spec:
+  nodeSelector: {{.nodeSelector}}
+  tolerations:
+  - key: os
+    value: Windows
+    effect: NoSchedule
+  containers:
+  - name: node-density
+    image: {{.containerImage}}
+    resources:
+      requests:
+        memory: "10Mi"
+        cpu: "10m"
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    imagePullPolicy: IfNotPresent
+    securityContext:
+      privileged: false
